@@ -374,6 +374,7 @@ For further reference, please refer to the official documentation on lambda:
 #### Average Bronze Medals
 
 from pandas import DataFrame, Series
+```python
 import numpy
 
 
@@ -417,3 +418,4 @@ def avg_medal_count():
     country_bronze = df[['name','gold','bronze']].map(lambda x: x>=1)
     avg_bronze_at_least_one_gold = country_bronze
     return avg_bronze_at_least_one_gold
+    ```
