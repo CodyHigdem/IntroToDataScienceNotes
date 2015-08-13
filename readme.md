@@ -283,3 +283,137 @@ def create_dataframe():
 
     olympic_medal_counts_df = DataFrame(d)
     return olympic_medal_counts_df
+
+    ##How to access the Data
+
+    df = DataFrame(d)
+
+    df['name']
+
+    returns name column.
+
+    df.loc['a']
+
+    Only want rows where age is greater than 30
+
+    df[df['age'] >= 30]
+    only survivor info
+
+    df['survived?'][df['age'] >= 30]
+RETURNED
+    b true
+    d false
+
+import pandas as pd
+
+'''
+You can think of a DataFrame as a group of Series that share an index.
+This makes it easy to select specific columns that you want from the
+DataFrame.
+
+Also a couple pointers:
+1) Selecting a single column from the DataFrame will return a Series
+2) Selecting multiple columns from the DataFrame will return a DataFrame
+
+*This playground is inspired by Greg Reda's post on Intro to Pandas Data Structures:
+http://www.gregreda.com/2013/10/26/intro-to-pandas-data-structures/
+'''
+# Change False to True to see Series indexing in action
+if False:
+    data = {'year': [2010, 2011, 2012, 2011, 2012, 2010, 2011, 2012],
+            'team': ['Bears', 'Bears', 'Bears', 'Packers', 'Packers', 'Lions',
+                     'Lions', 'Lions'],
+            'wins': [11, 8, 10, 15, 11, 6, 10, 4],
+            'losses': [5, 8, 6, 1, 5, 10, 6, 12]}
+    football = pd.DataFrame(data)
+    print football['year']
+    print ''
+    print football.year  # shorthand for football['year']
+    print ''
+    print football[['year', 'wins', 'losses']]
+
+'''
+Row selection can be done through multiple ways.
+
+Some of the basic and common methods are:
+   1) Slicing
+   2) An individual index (through the functions iloc or loc)
+   3) Boolean indexing
+
+You can also combine multiple selection requirements through boolean
+operators like & (and) or | (or)
+'''
+# Change False to True to see boolean indexing in action
+if False:
+    data = {'year': [2010, 2011, 2012, 2011, 2012, 2010, 2011, 2012],
+            'team': ['Bears', 'Bears', 'Bears', 'Packers', 'Packers', 'Lions',
+                     'Lions', 'Lions'],
+            'wins': [11, 8, 10, 15, 11, 6, 10, 4],
+            'losses': [5, 8, 6, 1, 5, 10, 6, 12]}
+    football = pd.DataFrame(data)
+    print football.iloc[[0]]
+    print ""
+    print football.loc[[0]]
+    print ""
+    print football[3:5]
+    print ""
+    print football[football.wins > 10]
+    print ""
+    print football[(football.wins > 10) & (football.team == "Packers")]
+
+###
+
+df.apply(numpy.mean) aplies this to every data point
+
+As a refresher on lambda, lambda functions are small inline functions that are defined on-the-fly in Python. lambda x: x>= 1 will take an input x and return x>=1, or a boolean that equals True or False.
+
+In this example, map() and applymap() create a new Series or DataFrame by applying the lambda function to each element. Note that map() can only be used on a Series to return a new Series and applymap() can only be used on a DataFrame to return a new DataFrame.
+
+For further reference, please refer to the official documentation on lambda:
+
+#### Average Bronze Medals
+
+from pandas import DataFrame, Series
+import numpy
+
+
+def avg_medal_count():
+    '''
+    Compute the average number of bronze medals earned by countries who
+    earned at least one gold medal.
+
+    Save this to a variable named avg_bronze_at_least_one_gold.
+
+    HINT-1:
+    You can retrieve all of the values of a Pandas column from a
+    data frame, "df", as follows:
+    df['column_name']
+
+    HINT-2:
+    The numpy.mean function can accept as an argument a single
+    Pandas column.
+
+    For example, numpy.mean(df["col_name"]) would return the
+    mean of the values located in "col_name" of a dataframe df.
+    '''
+
+
+    countries = ['Russian Fed.', 'Norway', 'Canada', 'United States',
+                 'Netherlands', 'Germany', 'Switzerland', 'Belarus',
+                 'Austria', 'France', 'Poland', 'China', 'Korea',
+                 'Sweden', 'Czech Republic', 'Slovenia', 'Japan',
+                 'Finland', 'Great Britain', 'Ukraine', 'Slovakia',
+                 'Italy', 'Latvia', 'Australia', 'Croatia', 'Kazakhstan']
+
+    gold = [13, 11, 10, 9, 8, 8, 6, 5, 4, 4, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
+    silver = [11, 5, 10, 7, 7, 6, 3, 0, 8, 4, 1, 4, 3, 7, 4, 2, 4, 3, 1, 0, 0, 2, 2, 2, 1, 0]
+    bronze = [9, 10, 5, 12, 9, 5, 2, 1, 5, 7, 1, 2, 2, 6, 2, 4, 3, 1, 2, 1, 0, 6, 2, 1, 0, 1]
+
+    # YOUR CODE HERE
+
+    d = {'name': Series(countries),'gold': Series(gold),'bronze': Series(bronze)}
+
+    df = DataFrame(d)
+    country_bronze = df[['name','gold','bronze']].map(lambda x: x>=1)
+    avg_bronze_at_least_one_gold = country_bronze
+    return avg_bronze_at_least_one_gold
