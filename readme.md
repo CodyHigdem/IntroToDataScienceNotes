@@ -13,15 +13,16 @@ Data frames: string, int, float, bolean. Similiar to excel spreadsheets
 Create a data frame. create a python dictionary called d where each key is the name of the column. Then the name of the data frames and the index of where you want them to go.
 In fare, there was a NaN and so it is 'skipped' in the data frame and indexes are given to everything else
 
+```python
 d = {'name': Series(['Braund', 'Cummings', 'Heikkinen', 'Allen'], index=['a', 'b', 'c', 'd']),
 	'age': Series([22,38,26,35], index=['a','b','c','d']),
 	'fare': Series([7.25,71.83,.8.05], index=['a','b','d'])
 	'survived': Series([False, True, True, False], index=['a', 'b', 'c', 'd'])}
-
+```
 Now that this is created, we can actually pass this on to the data frame function to create the actual dataframe.
-
+```python
 df = DataFrame(d)
-
+```
 print (df)
 
 returns a 'excel' like info
