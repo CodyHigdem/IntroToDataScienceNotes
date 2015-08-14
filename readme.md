@@ -27,6 +27,7 @@ print (df)
 
 returns a 'excel' like info
 
+```python
 import pandas as pd
 
 '''
@@ -136,7 +137,7 @@ if False:
     print football.head()
     print ""
     print football.tail()
-
+```
 
 ####Python Numpy
 Multidimentional arrays + Matrices
@@ -375,7 +376,10 @@ For further reference, please refer to the official documentation on lambda:
 #### Average Bronze Medals
 
 from pandas import DataFrame, Series
+
 ```python
+
+from pandas import DataFrame, Series
 import numpy
 
 
@@ -416,7 +420,9 @@ def avg_medal_count():
     d = {'name': Series(countries),'gold': Series(gold),'bronze': Series(bronze)}
 
     df = DataFrame(d)
-    country_bronze = df[['name','gold','bronze']].map(lambda x: x>=1)
-    avg_bronze_at_least_one_gold = country_bronze
+    one_gold = df['bronze'][df['gold'] >= 1]
+
+    avg_bronze_at_least_one_gold = numpy.mean(one_gold)
     return avg_bronze_at_least_one_gold
+
     ```
