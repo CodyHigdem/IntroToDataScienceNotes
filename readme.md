@@ -683,5 +683,18 @@ def select_first_50(filename):
     return aadhaar_solution
 
     ```
+Select * FROM aadhaar_data WHERE state = 'x'
+
+### API and JSON
+
+JSON Data can be likea python dictionary.
+
+data = requests.get(url).text
+data = json.loads(data)
+print type(data)
+print data
+data['artist']
+
+
 
 
