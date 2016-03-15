@@ -8,10 +8,22 @@ To get brushed up on python https://www.udacity.com/course/programming-foundatio
 Handle data in a way suited for analysis
 Similiar to R So nice pick up
 
-Data frames: string, int, float, bolean. Similiar to excel spreadsheets
+Data frames: string, int, float, bolean. Similiar to excel spreadsheets.
 
-Create a data frame. create a python dictionary called d where each key is the name of the column. Then the name of the data frames and the index of where you want them to go.
-In fare, there was a NaN and so it is 'skipped' in the data frame and indexes are given to everything else
+So what we'll want to do is create a dataframe that's based on a chart. 
+
+| Nam  | Age  | Fare  | Survived  |
+|---|---|---|---|---|
+| Braund  | 22  | 7.25  | False   |
+|  Cummings | 38  |  71.83 | True   |
+|  Heikkinen |  26 | NaN  |   True |
+| Alen | 35 | 8.05 | False |
+#####Create a data frame. 
+
+Start by creating a python dictionary called d where each key is the name of the column. 
+Then the name of the data frames and the index of where you want them to go.
+
+**NOTE:** In fare, there was a NaN and so it is 'skipped' in the data frame and indexes are given to everything else
 
 ```python
 d = {'name': Series(['Braund', 'Cummings', 'Heikkinen', 'Allen'], index=['a', 'b', 'c', 'd']),
