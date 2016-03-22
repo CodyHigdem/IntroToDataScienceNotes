@@ -27,8 +27,8 @@ Psuedo code:
 
 ###Try 1
 
-`
-        # Make everyone dead
+
+       `# Make everyone dead
         survived = False
         # Prediction model variables
         passenger_id = passenger["PassengerId"]
@@ -38,9 +38,8 @@ Psuedo code:
         sibsp = passenger["SibSp"]
         fare = passenger["Fare"]
         cabin = passenger["Cabin"] #too many NaN
-        embarkPoint = passenger["Embarked"] #(C = Cherbourg; Q = Queenstown; S = Southampton)
+        embarkPoint = passenger["Embarked"] #(C = Cherbourg; Q = Queenstown; S = Southampton)`
 
-`
 
 if a woman you survived:
 `
@@ -50,23 +49,53 @@ if sex == 'female':
 
 ###4. If they survived, then change prediction score to yes, if not then no
 
-`
-        if survived:
+
+        `if survived:
              predictions[passenger_id] = 1
         else:
              predictions[passenger_id] = 0
-        return predictions
-`
+        return predictions`
 
 ####Trials
 
-Trial 1
+####Trial 1
 
 `
 if sex == 'female':
             survived = True
 `
 **Returned 78.86%**
+
+####Trial 2
+Let's go with women and upper class
+`
+if sex == 'female' and pclass <=1:
+	survived = True
+**returned 71.5%**
+
+#### Trial 3
+If you're a rich woman, middle class woman or a rich man
+`
+if sex == 'female' and pclass <=2:
+	survived = True
+elif sex =='male' and pclass <=1:
+	survived = True
+`
+
+### Trial 15
+Rich and upper class females
+upper class males less than age of 9 and with 2 siblings or less
+or if you were younger than 15 and had family
+
+        `if sex == "female" and pclass <= 2:
+             survived = True
+        elif sex == "male" and pclass > 1 and age <= 9 and sibsp <= 2:
+             survived = True
+        if age <= 15 and sibsp <= 2 and parch <= 3:
+            survived = True`
+**RETURNED: 81.71%**
+
+
 
 
 `import numpy
