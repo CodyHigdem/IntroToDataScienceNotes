@@ -83,3 +83,137 @@ Good job! Your code worked perfectly.
 
    count(*)
 0        10`
+
+## 2.2
+
+   This function should run a SQL query on a dataframe of
+    weather data.  The SQL query should return two columns and
+    two rows - whether it was foggy or not (0 or 1) and the max
+    maxtempi for that fog value (i.e., the maximum max temperature
+    for both foggy and non-foggy days).  The dataframe will be 
+    titled 'weather_data'. You'll need to provide the SQL query.
+
+
+So the trick here is to return two columns and two rows. The first is if fog is 0 or 1. Then the max temperture (maxtempi) for the fog value of 0 and 1. 
+
+So scrolling throug the sql docs GROUP BY may be the best: The GROUP BY statement is used in conjunction with the aggregate functions to group the result-set by one or more columns.
+
+
+So let's give it a try. 
+
+`import pandas
+import pandasql
+
+
+def max_temp_aggregate_by_fog(filename):
+    '''
+    This function should run a SQL query on a dataframe of
+    weather data.  The SQL query should return two columns and
+    two rows - whether it was foggy or not (0 or 1) and the max
+    maxtempi for that fog value (i.e., the maximum max temperature
+    for both foggy and non-foggy days).  The dataframe will be 
+    titled 'weather_data'. You'll need to provide the SQL query.
+    
+    You might also find that interpreting numbers as integers or floats may not
+    work initially.  In order to get around this issue, it may be useful to cast
+    these numbers as integers.  This can be done by writing cast(column as integer).
+    So for example, if we wanted to cast the maxtempi column as an integer, we would actually
+    write something like where cast(maxtempi as integer) = 76, as opposed to simply 
+    where maxtempi = 76.
+    
+    You can see the weather data that we are passing in below:
+    https://www.dropbox.com/s/7sf0yqc9ykpq3w8/weather_underground.csv
+    '''
+    weather_data = pandas.read_csv(filename)
+
+    q = """
+    SELECT fog, max(cast (maxtempi as integer))
+    FROM weather_data
+    GROUP BY fog
+    """
+    
+    #Execute your SQL command against the pandas frame
+    foggy_days = pandasql.sqldf(q.lower(), locals())
+    return foggy_days`
+
+
+## Problem 2.3
+
+    This function should run a SQL query on a dataframe of
+    weather data.  The SQL query should return one column and
+    one row - the average meantempi on days that are a Saturday
+    or Sunday (i.e., the the average mean temperature on weekends).
+    The dataframe will be titled 'weather_data' and you can access
+    the date in the dataframe via the 'date' column.
+    
+    You'll need to provide  the SQL query.
+
+    You might also find that interpreting numbers as integers or floats may not
+    work initially.  In order to get around this issue, it may be useful to cast
+    these numbers as integers.  This can be done by writing cast(column as integer).
+    So for example, if we wanted to cast the maxtempi column as an integer, we would actually
+    write something like where cast(maxtempi as integer) = 76, as opposed to simply 
+    where maxtempi = 76.
+    
+    Also, you can convert dates to days of the week via the 'strftime' keyword in SQL.
+    For example, cast (strftime('%w', date) as integer) will return 0 if the date
+    is a Sunday or 6 if the date is a Saturday.
+
+
+    We need to return 1 column and 1 row. The AVERAGE temperature (meantempi) on days that are saturday and sunday. 
+    So first let's just get the average. Which should be used by AVG.
+
+    So we're no longer groupong but we're selecting these data where it's a saturday or a sunday. In the instructions we get the hint: 
+        Also, you can convert dates to days of the week via the 'strftime' keyword in SQL.
+        For example, cast (strftime('%w', date) as integer) will return 0 if the date
+        is a Sunday or 6 if the date is a Saturday.
+    so cast(strftime('w%', 0)) AND cast(strftime('w%', 6)) will get us the averages of all Sundays and Averages of all Saturdays
+
+    In SQL we can use cast an strftime. The trick is in which order? If you cast inside it's an error, so it looks like cast needs to be on the outside. 
+
+`import pandas
+import pandasql
+
+def avg_weekend_temperature(filename):
+    '''
+    This function should run a SQL query on a dataframe of
+    weather data.  The SQL query should return one column and
+    one row - the average meantempi on days that are a Saturday
+    or Sunday (i.e., the the average mean temperature on weekends).
+    The dataframe will be titled 'weather_data' and you can access
+    the date in the dataframe via the 'date' column.
+    
+    You'll need to provide  the SQL query.
+    
+    You might also find that interpreting numbers as integers or floats may not
+    work initially.  In order to get around this issue, it may be useful to cast
+    these numbers as integers.  This can be done by writing cast(column as integer).
+    So for example, if we wanted to cast the maxtempi column as an integer, we would actually
+    write something like where cast(maxtempi as integer) = 76, as opposed to simply 
+    where maxtempi = 76.
+    
+    Also, you can convert dates to days of the week via the 'strftime' keyword in SQL.
+    For example, cast (strftime('%w', date) as integer) will return 0 if the date
+    is a Sunday or 6 if the date is a Saturday.
+    
+    You can see the weather data that we are passing in below:
+    https://www.dropbox.com/s/7sf0yqc9ykpq3w8/weather_underground.csv
+    '''
+    weather_data = pandas.read_csv(filename)
+
+    q = """
+    SELECT AVG(cast(meantempi as integer))
+    FROM weather_data
+    WHERE cast (strftime('%w', date) as integer) = 0
+          OR cast (strftime('%w', date) as integer) = 6
+
+    """
+    
+    #Execute your SQL command against the pandas frame
+    mean_temp_weekends = pandasql.sqldf(q.lower(), locals())
+    return mean_temp_weekends`
+
+
+
+
+
