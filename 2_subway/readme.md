@@ -3,10 +3,10 @@
 ##The Data
 So for some reason I can't see the csv file which makes this a pain. So my first query will just be to search everything in the database to see if it has anything of good use. 
 
-`    q_weather_table = """
+`q_weather_table = """
     SELECT *
-    FROM weather_data 
-    """
+    FROM weather_data
+    S"""
     print pandasql.sqldf(q_weather_table.lower(), locals())
     print '**************DONE***********'`
 
@@ -21,7 +21,7 @@ so I modify the query to just have 'rain' since I'm guessing there is a rain yes
 
 And it does return rain 0 or 1. So perfect. 
 
-##The real Query
+###The real Query
 
    `weather_data = pandas.read_csv(filename)
     q_weather_table = """
@@ -212,6 +212,25 @@ def avg_weekend_temperature(filename):
     #Execute your SQL command against the pandas frame
     mean_temp_weekends = pandasql.sqldf(q.lower(), locals())
     return mean_temp_weekends`
+
+## 2.4
+
+    This function should run a SQL query on a dataframe of
+    weather data. More specifically you want to find the average
+    minimum temperature (mintempi column of the weather dataframe) on 
+    rainy days where the minimum temperature is greater than 55 degrees.
+
+    This is a very straight forward attempt. 
+    1. get average lowest temperature (minitemp)
+    2. when it's raining (rainy = 1)
+    3. and if the low temp is greater than 55 (mintemp > 55)
+
+        `q = """
+    SELECT AVG(cast(mintempi as integer))
+    FROM weather_data
+    WHERE rain=1 AND mintempi > 55
+    """`
+
 
 
 
